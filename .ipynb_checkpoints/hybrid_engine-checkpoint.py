@@ -1,7 +1,14 @@
 import pandas as pd
-from sklearn.metrics.pairwise import cosine_similarity
+
+print("HYBRID ENGINE LOADED")
+
 retailer_features = pd.read_parquet(
     "data/processed/retailer_features.parquet"
+)
+
+print(
+    "Retailers loaded:",
+    retailer_features.shape
 )
 
 product_features = pd.read_parquet(
@@ -23,12 +30,14 @@ sku_lookup = pd.read_parquet(
 similarity_df = pd.read_parquet(
     "data/processed/similarity_matrix.parquet"
 )
+
 sku_dict = dict(
     zip(
         sku_lookup["skuNumber"],
         sku_lookup["itemName"]
     )
 )
+
 popularity_dict = dict(
     zip(
         product_features["skuNumber"],
