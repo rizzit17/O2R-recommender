@@ -16,16 +16,19 @@ st.set_page_config(
 if "show_engine" not in st.session_state:
     st.session_state.show_engine = False
 
-if "w_cf" not in st.session_state: st.session_state.w_cf = 60
-if "w_reg" not in st.session_state: st.session_state.w_reg = 25
-if "w_pop" not in st.session_state: st.session_state.w_pop = 15
+if "cf_s" not in st.session_state: st.session_state.cf_s = 60
+if "cf_i" not in st.session_state: st.session_state.cf_i = 60
+if "reg_s" not in st.session_state: st.session_state.reg_s = 25
+if "reg_i" not in st.session_state: st.session_state.reg_i = 25
+if "pop_s" not in st.session_state: st.session_state.pop_s = 15
+if "pop_i" not in st.session_state: st.session_state.pop_i = 15
 
-def sync_w_cf_from_s(): st.session_state.w_cf = st.session_state.cf_s
-def sync_w_cf_from_i(): st.session_state.w_cf = st.session_state.cf_i
-def sync_w_reg_from_s(): st.session_state.w_reg = st.session_state.reg_s
-def sync_w_reg_from_i(): st.session_state.w_reg = st.session_state.reg_i
-def sync_w_pop_from_s(): st.session_state.w_pop = st.session_state.pop_s
-def sync_w_pop_from_i(): st.session_state.w_pop = st.session_state.pop_i
+def sync_w_cf_from_s(): st.session_state.cf_i = st.session_state.cf_s
+def sync_w_cf_from_i(): st.session_state.cf_s = st.session_state.cf_i
+def sync_w_reg_from_s(): st.session_state.reg_i = st.session_state.reg_s
+def sync_w_reg_from_i(): st.session_state.reg_s = st.session_state.reg_i
+def sync_w_pop_from_s(): st.session_state.pop_i = st.session_state.pop_s
+def sync_w_pop_from_i(): st.session_state.pop_s = st.session_state.pop_i
 
 # ── Global styles (no HTML content mixed in) ───────────────────────────────────
 st.markdown("""
@@ -412,31 +415,33 @@ else:
         st.markdown("<div style='font-size:0.8rem;color:#E2E8F0;margin-bottom:0.2rem;'>Collaborative Filtering (%)</div>", unsafe_allow_html=True)
         col_s1, col_i1 = st.columns([3, 1.2])
         with col_s1:
-            st.slider("CF", 0, 100, key="cf_s", value=st.session_state.w_cf, on_change=sync_w_cf_from_s, label_visibility="collapsed")
+            st.slider("CF", 0, 100, value=st.session_state.cf_s, key="cf_s", on_change=sync_w_cf_from_s, label_visibility="collapsed")
         with col_i1:
-            st.number_input("CF", 0, 100, key="cf_i", value=st.session_state.w_cf, on_change=sync_w_cf_from_i, label_visibility="collapsed")
+            st.number_input("CF", 0, 100, value=st.session_state.cf_i, key="cf_i", on_change=sync_w_cf_from_i, label_visibility="collapsed")
 
         st.markdown("<div style='font-size:0.8rem;color:#E2E8F0;margin-bottom:0.2rem;margin-top:0.25rem;'>Regional Trends (%)</div>", unsafe_allow_html=True)
         col_s2, col_i2 = st.columns([3, 1.2])
         with col_s2:
-            st.slider("Reg", 0, 100, key="reg_s", value=st.session_state.w_reg, on_change=sync_w_reg_from_s, label_visibility="collapsed")
+            st.slider("Reg", 0, 100, value=st.session_state.reg_s, key="reg_s", on_change=sync_w_reg_from_s, label_visibility="collapsed")
         with col_i2:
-            st.number_input("Reg", 0, 100, key="reg_i", value=st.session_state.w_reg, on_change=sync_w_reg_from_i, label_visibility="collapsed")
+            st.number_input("Reg", 0, 100, value=st.session_state.reg_i, key="reg_i", on_change=sync_w_reg_from_i, label_visibility="collapsed")
 
         st.markdown("<div style='font-size:0.8rem;color:#E2E8F0;margin-bottom:0.2rem;margin-top:0.25rem;'>Popularity (%)</div>", unsafe_allow_html=True)
         col_s3, col_i3 = st.columns([3, 1.2])
         with col_s3:
-            st.slider("Pop", 0, 100, key="pop_s", value=st.session_state.w_pop, on_change=sync_w_pop_from_s, label_visibility="collapsed")
+            st.slider("Pop", 0, 100, value=st.session_state.pop_s, key="pop_s", on_change=sync_w_pop_from_s, label_visibility="collapsed")
         with col_i3:
-            st.number_input("Pop", 0, 100, key="pop_i", value=st.session_state.w_pop, on_change=sync_w_pop_from_i, label_visibility="collapsed")
+            st.number_input("Pop", 0, 100, value=st.session_state.pop_i, key="pop_i", on_change=sync_w_pop_from_i, label_visibility="collapsed")
 
-        total_w = st.session_state.w_cf + st.session_state.w_reg + st.session_state.w_pop
-        if total_w > 0:
-            w_cf = st.session_state.w_cf / total_w
-            w_reg = st.session_state.w_reg / total_w
-            w_pop = st.session_state.w_pop / total_w
+        total_w = st.session_state.cf_i + st.session_state.reg_i + st.session_state.pop_i
+        if total_w != 100:
+            st.markdown(f"<div style='color:#ef4444;font-size:0.75rem;margin-top:0.5rem;font-weight:600;'>&#9888;&#65039; Weights must sum to 100. Current: {total_w}</div>", unsafe_allow_html=True)
+            valid_weights = False
         else:
-            w_cf, w_reg, w_pop = 0.6, 0.25, 0.15
+            w_cf = st.session_state.cf_i / 100.0
+            w_reg = st.session_state.reg_i / 100.0
+            w_pop = st.session_state.pop_i / 100.0
+            valid_weights = True
 
         st.markdown("<div style='margin-top:1.25rem;'></div>", unsafe_allow_html=True)
 
@@ -571,7 +576,7 @@ else:
     </div>
     """, unsafe_allow_html=True)
 
-    if customer_id is not None and st.button("Run Recommendation Engine", type="primary", use_container_width=True):
+    if customer_id is not None and st.button("Run Recommendation Engine", type="primary", use_container_width=True, disabled=not valid_weights):
         with st.spinner("Running hybrid recommendation engine..."):
             recs = hybrid_recommend(customer_id, top_n=10, weight_cf=w_cf, weight_region=w_reg, weight_pop=w_pop)
             results = []
