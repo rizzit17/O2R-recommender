@@ -105,7 +105,10 @@ def recommend_products(
 
 def hybrid_recommend(
     customer_id,
-    top_n=10
+    top_n=10,
+    weight_cf=0.60,
+    weight_region=0.25,
+    weight_pop=0.15
 ):
 
     cf_recs = recommend_products(
@@ -217,11 +220,11 @@ def hybrid_recommend(
         )
 
         score = (
-            0.60 * cf
+            weight_cf * cf
             +
-            0.25 * region
+            weight_region * region
             +
-            0.15 * popularity
+            weight_pop * popularity
         )
 
         hybrid_scores[
