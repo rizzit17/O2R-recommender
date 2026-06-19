@@ -1,6 +1,6 @@
 # Dataset paths
 
-RAW_DATA_PATH = "data/raw/orders_100k.xlsx"
+RAW_DATA_PATH = "data/raw/orders_600k.xlsx"
 
 CLEAN_DATA_PATH = "data/processed/orders_clean.parquet"
 

@@ -536,7 +536,7 @@ else:
         </div>
         <div style="font-size:1.15rem;font-weight:700;color:#F1F5F9;
                     margin-bottom:1rem;letter-spacing:-0.01em;">
-            &#128100; Profile &amp; Statistics
+            Profile &amp; Statistics
         </div>
         """, unsafe_allow_html=True)
 
@@ -572,7 +572,7 @@ else:
     </div>
     <div style="font-size:1.15rem;font-weight:700;color:#F1F5F9;
                 margin-bottom:1rem;letter-spacing:-0.01em;">
-        &#127919; Generate Recommendations
+        Generate Recommendations
     </div>
     """, unsafe_allow_html=True)
 
