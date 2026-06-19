@@ -700,7 +700,7 @@ else:
                 flex-wrap:wrap;gap:0.5rem;">
         <span style="font-size:0.75rem;color:#334155;
                      font-family:'JetBrains Mono',monospace;">
-            O2R Recommendation Engine &middot; DS Group
+            O2R Recommendation Engine
         </span>
         <span style="font-size:0.72rem;color:#1E293B;">
             Collaborative Filtering &middot; FP-Growth &middot;

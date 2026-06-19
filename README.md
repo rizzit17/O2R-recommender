@@ -89,11 +89,11 @@ This will open the application in your default web browser at `http://localhost:
 
 ---
 
-## 📝 Important Note on Large Files
+## 📝 Important Note on Data Privacy
 
-This project utilizes large datasets (`.parquet`) and machine learning models (`.pkl`) which exceed standard GitHub file size limits. 
+For confidentiality and data privacy reasons, the proprietary datasets (`.parquet`, `.xlsx`) and pre-trained machine learning models (`.pkl`) are not included in this repository. 
 
-These files are located in `data/processed/` and `models/` and are tracked in `.gitignore` to prevent push errors. If you are cloning this repository on a new machine, you will need to regenerate these processed files from the raw data or use Git LFS if you choose to track them.
+These files are located in `data/` and `models/` and have been intentionally excluded via `.gitignore` to prevent exposing sensitive information. If you are cloning this repository to test the application, you will need to provide your own datasets following the structure outlined in the notebooks, and run the processing scripts to generate the required `.parquet` and `.pkl` files.
 
 ---
 
